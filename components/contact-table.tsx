@@ -1,6 +1,8 @@
 import React from 'react'
 import { getContacts } from '@/lib/data'
 import Link from 'next/link'
+import { formatDate } from '@/lib/utils'
+import { DeleteButton, EditButton } from './buttons'
 
 const ContactTable  = async() => {
     const contacts = await getContacts()
@@ -21,11 +23,10 @@ const ContactTable  = async() => {
                         <td className="py-3 px-6">{index+1}</td>
                         <td className="py-3 px-6">{contact.name}</td>
                         <td className="py-3 px-6">{contact.phone}</td>
-                        <td className="py-3 px-6">{contact.createdAt.toString()}</td>
-                        <td className="py-3 px-6 text-center">
-                            <Link href={`/contacts/${contact.id}`}>
-                                EDIT | DELETE
-                            </Link>
+                        <td className="py-3 px-6">{formatDate(contact.createdAt.toString())}</td>
+                        <td className="flex justify-center gap-1 py-3">
+                            <EditButton/>
+                            <DeleteButton/>
                         </td>
                     </tr>
                 ))}
