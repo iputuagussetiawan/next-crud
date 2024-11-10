@@ -1,6 +1,9 @@
 import React from 'react'
+import { getContacts } from '@/lib/data'
+import Link from 'next/link'
 
-const ContactTable  = () => {
+const ContactTable  = async() => {
+    const contacts = await getContacts()
     return (
         <table className="w-full text-sm text-left text-gray-500">
             <thead className="text-sm text-gray-700 uppercase bg-gray-50">
@@ -13,17 +16,19 @@ const ContactTable  = () => {
                 </tr>
             </thead>
             <tbody>
-                <tr className="bg-white border-b">
-                    <td className="py-3 px-6">1</td>
-                    <td className="py-3 px-6">Name</td>
-                    <td className="py-3 px-6">Phone</td>
-                    <td className="py-3 px-6">
-                        Action
-                    </td>
-                    <td className="flex justify-center gap-1 py-3">
-                        EDIT | DELETE
-                    </td>
-                </tr>
+                {contacts.map((contact,index) => (
+                    <tr key={contact.id} className="bg-white border-b">
+                        <td className="py-3 px-6">{index+1}</td>
+                        <td className="py-3 px-6">{contact.name}</td>
+                        <td className="py-3 px-6">{contact.phone}</td>
+                        <td className="py-3 px-6">{contact.createdAt.toString()}</td>
+                        <td className="py-3 px-6 text-center">
+                            <Link href={`/contacts/${contact.id}`}>
+                                EDIT | DELETE
+                            </Link>
+                        </td>
+                    </tr>
+                ))}
             </tbody>
         </table>
     )
